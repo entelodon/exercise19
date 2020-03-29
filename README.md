@@ -4,9 +4,9 @@
 1. composer install
 2. npm install
 3. npm run dev
-4. php artisan migrate
-5. php artisan companies:refresh
-6. copy and edit the env file
+4. copy and edit the env file
+5. php artisan migrate
+6. php artisan companies:refresh
 7. php artisan serve
 
 #Env file example
