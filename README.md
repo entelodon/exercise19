@@ -7,7 +7,8 @@
 4. copy and edit the env file
 5. php artisan migrate
 6. php artisan companies:refresh
-7. php artisan serve
+7. php artisan queue:work
+8. php artisan serve
 
 #Env file example
 
