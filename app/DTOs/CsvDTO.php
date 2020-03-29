@@ -52,7 +52,6 @@ class CsvDTO implements iStructuredData
             throw new InvalidRow('The number of the columns in the row given, does not match the number of the columns for the whole collection.');
         }
         $record = [];
-        //TODO: Here we could add validation if the number of the row's columns is bigger than the columns defined from the constructor we have a problem
         foreach ($row as $key => $value) {
             $record[$this->columns[$key]] = $value;
         }
