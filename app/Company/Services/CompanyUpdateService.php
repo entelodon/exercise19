@@ -164,6 +164,11 @@ class CompanyUpdateService
 
     private function settingsSetup()
     {
+        /**
+         * It's a good thing for the services to be an idea more abstract,
+         * and not to depend on external library for the configuration
+         * This could be refactored
+         */
         $this->companyFields = [
             env('SEEDER_STRUCTURE_COMPANY_NAME') => Company::NAME,
             env('SEEDER_STRUCTURE_FINANCIAL_STATUS') => Company::FINANCIAL_STATUS,

@@ -41,11 +41,9 @@ class SeederDTO
         foreach ($record as $fieldName => $value) {
             if (array_key_exists($fieldName, $marketCategoryFields)) {
                 $marketCategoryArray[$marketCategoryFields[$fieldName]] = $value;
-            }
-
-            if (array_key_exists($fieldName, $companyFields)) {
+            }elseif (array_key_exists($fieldName, $companyFields)) {
+                //This should refer to the Company Service in order to create the company
                 $this->company->setAttribute($companyFields[$fieldName], $value);
-                continue; //We don't need to keep looping
             }
         }
 
@@ -58,6 +56,7 @@ class SeederDTO
     /**
      * @param array $marketCategoryArray
      * @return MarketCategory
+     * This here should refer to the Market Category service in order to create the MarketCategory
      */
     private function getOrCreateMarketCategory(array $marketCategoryArray): MarketCategory
     {

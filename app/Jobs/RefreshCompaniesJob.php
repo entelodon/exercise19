@@ -17,6 +17,10 @@ class RefreshCompaniesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var int $tries
+     * This could be using a constant or something to be easily configurable
+     */
     public $tries = 5;
     /**
      * Create a new job instance.
@@ -25,7 +29,6 @@ class RefreshCompaniesJob implements ShouldQueue
      */
     public function __construct()
     {
-        Log::error("hi");
         //
     }
 
@@ -37,6 +40,9 @@ class RefreshCompaniesJob implements ShouldQueue
     public function handle()
     {
         try {
+            /**
+             * Service provider should be used
+             */
             $companyUpdateService = new CompanyUpdateService(
                 env("SEEDER_ENDPOINT"),
                 env("SEEDER_METHOD"),
@@ -45,8 +51,9 @@ class RefreshCompaniesJob implements ShouldQueue
                 true
             );
             $companyUpdateService->insertOrUpdateData();
-
-            //TODO: NOTE that usually I would use cron jobs, but this is much easier for testing and will not require any system setup.
+            /**
+             *  NOTE: that usually I would use cron jobs, but this is much easier for testing and will not require any system setup.
+             */
             RefreshCompaniesJob::dispatch()->delay(Carbon::now()->addSeconds(env('SEEDER_AUTOUPDATE_FREQUENCY')));
         } catch (InvalidDataStructure $e) {
             $this->fail($e);

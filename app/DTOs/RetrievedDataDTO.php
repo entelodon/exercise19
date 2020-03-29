@@ -48,6 +48,10 @@ class RetrievedDataDTO implements iRetrievedData
 
     public function __construct(Company $company, iStructuredData $structuredData, Carbon $startDate, Carbon $endDate, string $startDateFormatted, string $endDateFormatted)
     {
+        /**
+         * By the book all this should be done by getters and setters,
+         * so future changes could be easier, without changing the whole signature of the class
+         */
         $this->company = $company;
         $this->structuredData = $structuredData;
         $this->startDate = $startDate;

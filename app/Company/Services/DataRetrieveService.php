@@ -164,6 +164,10 @@ class DataRetrieveService
     }
 
     public function sendEmail(iRetrievedData $retrievedData, string $to){
+        /**
+         * This definitely should go into queue,
+         * we don't want to have timeouts due to 3rd party service dependency
+         */
         $email = new PricesEmail($retrievedData);
         $email->to($to);
         $companyNameHolder = Company::NAME;
