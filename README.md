@@ -5,8 +5,8 @@
 2. npm install
 3. npm run dev
 4. php artisan migrate
-5. copy and edit the env file
-6. php artisan companies:refresh
+5. php artisan companies:refresh
+6. copy and edit the env file
 7. php artisan serve
 
 #Env file example
@@ -40,8 +40,8 @@ REDIS_PORT=6379
 MAIL_DRIVER=smtp
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=9b2e5dd7422b03
-MAIL_PASSWORD=8226c94ec7e23e
+MAIL_USERNAME=username
+MAIL_PASSWORD=password
 MAIL_FROM_ADDRESS=ktsivkov@excercise19.com
 MAIL_ENCRYPTION=tls
 MAIL_FROM_NAME="${APP_NAME}"
