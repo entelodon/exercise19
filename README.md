@@ -67,7 +67,7 @@ SEEDER_ENDPOINT="https://pkgstore.datahub.io/core/nasdaq-listings/nasdaq-listed_
 #The method should be a valid HTTP request method
 SEEDER_METHOD="GET"
 #Frequency is stored as seconds (It's about how many seconds should the records be updated after the last update)
-SEEDER_AUTOUPDATE_FREQUENCY=10
+SEEDER_AUTOUPDATE_FREQUENCY=120
 
 SEEDER_STRUCTURE="json"
 
