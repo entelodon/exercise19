@@ -1,3 +1,5 @@
+#KTsivkov 2020
+
 #SETUP
 1. composer install
 2. npm install

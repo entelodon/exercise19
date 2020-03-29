@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-
-});
+Route::get('/', '\App\Company\Controllers\CompanyController@index');
+Route::post('/', '\App\Company\Controllers\CompanyController@generateReport')->name('report.generate');

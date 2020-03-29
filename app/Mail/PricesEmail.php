@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\DTOs\interfaces\iRetrievedData;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,13 +13,18 @@ class PricesEmail extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * @var iRetrievedData $retrievedData
+     */
+    private $retrievedData;
+
+    /**
      * Create a new message instance.
      *
-     * @return void
+     * @param iRetrievedData $retrievedData
      */
-    public function __construct()
+    public function __construct(iRetrievedData $retrievedData)
     {
-        //
+        $this->retrievedData = $retrievedData;
     }
 
     /**
@@ -28,6 +34,6 @@ class PricesEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('retrievedData')->with('retrievedData', $this->retrievedData);
     }
 }

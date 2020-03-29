@@ -1,100 +1,210 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('styles')
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row justify-content-center mt-3 mb-3">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        Generate Report
+                    </div>
+                    <div class="card-body">
+                        @if($errors && $errors->count() > 0)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-group">
+                                        @foreach ($errors->all() as $error)
+                                            <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                        <form id="report-form" method="POST" action="{{route('report.generate')}}">
+                            @csrf
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="symbol">Company Symbol:</label>
+                                        <input name="symbol" id="symbol" required>
+                                        <span id="symbolError" class="hidden-error text-danger">Please select a valid company symbol.</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email">Email Address:</label>
+                                        <input name="email" type="email" class="form-control" id="email" required>
+                                        <span id="emailError" class="hidden-error text-danger">Please insert a valid email address.</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label for="dateFrom">Date From:</label>
+                                        <input class="form-control" name="dateFrom" id="dateFrom" required>
+                                        <span id="dateFromError" class="hidden-error text-danger">Please select a valid date.</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dateTo">Date To:</label>
+                                        <input class="form-control" name="dateTo" id="dateTo" disabled required>
+                                        <span id="dateToError" class="hidden-error text-danger">Please select a valid date.</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-8">
+                                        <button class="btn btn-block btn-success" type="submit">Get report</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-block btn-danger" type="reset">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+
+<script type="application/ecmascript" defer>
+    window.companies = @json($companies);
+
+    function validateEmail(email) {
+        let emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return emailRegex.test(email);
+    }
+
+    $(window).ready(function () {
+        window.dateFormat = 'yy-mm-dd';
+
+        $('#report-form').on('submit', function (event) {
+            event.preventDefault();
+            let momentDateFormat = 'YYYY-MM-DD';
+
+            /**
+             * FORM VALIDATION
+             */
+
+            let errorsFound = false;
+
+            /**
+             * Email validation
+             */
+
+            let formEmail = $('#email');
+            if (formEmail.val() === '' || !validateEmail(formEmail.val())) {
+                errorsFound = true;
+                $('#emailError').removeClass('hidden-error');
+            } else {
+                $('#emailError').addClass('hidden-error');
+            }
+
+            /**
+             * Symbol validation
+             */
+
+            let formSymbol = $('#symbol');
+            if (formSymbol.val() === '') {
+                errorsFound = true;
+                $('#symbolError').removeClass('hidden-error');
+            } else {
+                $('#symbolError').addClass('hidden-error');
+            }
+
+            /**
+             * Date From validation
+             */
+
+            let dateFrom = $('#dateFrom');
+            if (dateFrom.val() === '' || !moment(dateFrom.val(), momentDateFormat).isValid() ||
+                moment(dateFrom.val(), momentDateFormat).isAfter(moment.now())) {
+                errorsFound = true;
+                $('#dateFromError').removeClass('hidden-error');
+            } else {
+                $('#dateFromError').addClass('hidden-error');
+            }
+
+            /**
+             * Date To validation
+             */
+
+            let dateTo = $('#dateTo');
+            if (dateTo.val() === '' ||
+                !moment(dateTo.val(), momentDateFormat).isValid() ||
+                moment(dateTo.val(), momentDateFormat).isAfter(moment.now())
+            ) {
+                errorsFound = true;
+                $('#dateToError').removeClass('hidden-error');
+            } else {
+                if (
+                    dateFrom.val() !== '' && moment(dateFrom.val(), momentDateFormat).isValid() &&
+                    moment(dateTo.val()).isSameOrAfter(dateFrom.val())
+                ) {
+                    $('#dateToError').addClass('hidden-error');
+                } else {
+                    errorsFound = true;
+                    $('#dateToError').removeClass('hidden-error');
+                }
+            }
+
+            if (!errorsFound) {
+                this.submit();
+            }
+
+        });
+
+
+        $('#dateFrom').datepicker({
+            maxDate: '0',
+            dateFormat: window.dateFormat
+        }).on('change', function () {
+            let dateFromElem = $('#dateFrom');
+            let selectedDateFrom = dateFromElem.val();
+            let dateToElement = $('#dateTo');
+            if (selectedDateFrom !== '') {
+                dateToElement.prop("disabled", false);
+            } else {
+                dateToElement.prop("disabled", true);
+            }
+            dateToElement.datepicker("destroy");
+            dateToElement.val(dateFromElem.val())
+            dateToElement.datepicker({
+                minDate: dateFromElem.val(),
+                maxDate: '0',
+                dateFormat: window.dateFormat
+            });
+        });
+
+        $('#dateTo').datepicker();
+
+        $('#symbol').selectize({
+            create: false,
+            maxItems: 1,
+            sortField: 'text',
+            valueField: 'symbol',
+            labelField: 'symbol',
+            searchField: 'symbol',
+            options: window.companies,
+        });
+    });
+</script>
+</body>
 </html>
