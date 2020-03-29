@@ -23,7 +23,10 @@
         <div class="row justify-content-center mt-3 mb-3">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">Generated Report for {{$retrievedData->getCompany()->name}} for prices in between ({{$retrievedData->getStartDateFormatted()}} and {{$retrievedData->getEndDateFormatted()}}) </div>
+                    <div class="card-header bg-dark text-white">Generated Report
+                        for {{$retrievedData->getCompany()->name}} for prices in between
+                        ({{$retrievedData->getStartDateFormatted()}} and {{$retrievedData->getEndDateFormatted()}})
+                    </div>
                     <div class="card-body">
                         <table class="table table-striped table-dark">
                             <thead>
@@ -71,18 +74,22 @@
         "type": "line",
         "data": {
             "labels": @json($retrievedData->getReportData()->getDates()),
-            "datasets": [{
-                "label": "Open Price",
-                "data": @json($retrievedData->getReportData()->getOpenPrices()),
-                "fill": false,
-                "borderColor": "rgb(182,13,13)",
-            },
+            "datasets": [
+                {
+                    "label": "Open Price",
+                    "data": @json($retrievedData->getReportData()->getOpenPrices()),
+                    "fill": false,
+                    //We could use more friendly colors
+                    "borderColor": "rgb(182,13,13)",
+                },
                 {
                     "label": "Close Price",
                     "data": @json($retrievedData->getReportData()->getClosePrices()),
                     "fill": false,
+                    //We could use more friendly colors
                     "borderColor": "rgb(73,161,32)",
-                }]
+                }
+            ]
         },
         "options": {}
     });

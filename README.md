@@ -23,9 +23,9 @@ LOG_CHANNEL=stack
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=database
-DB_USERNAME=username
-DB_PASSWORD=password
+DB_DATABASE=ktsivkov
+DB_USERNAME=ktsivkov
+DB_PASSWORD=ktsivkov
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
@@ -40,8 +40,8 @@ REDIS_PORT=6379
 MAIL_DRIVER=smtp
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=username
-MAIL_PASSWORD=password
+MAIL_USERNAME=9b2e5dd7422b03
+MAIL_PASSWORD=8226c94ec7e23e
 MAIL_FROM_ADDRESS=ktsivkov@excercise19.com
 MAIL_ENCRYPTION=tls
 MAIL_FROM_NAME="${APP_NAME}"
@@ -79,7 +79,7 @@ SEEDER_STRUCTURE_TEST_ISSUE="Test Issue"
 SEEDER_STRUCTURE_MARKET_CATEGORY="Market Category"
 
 #Endpoint should be a valid URL address
-DATASERVER_ENDPOINT="https://www.quandl.com/api/v3/datasets/WIKI/AAPL.csv?order=asc&start_date=2003-01-01&end_date=2003-03-06"
+DATASERVER_ENDPOINT="https://www.quandl.com/api/v3/datasets/WIKI/"
 #The method should be a valid HTTP request method
 DATASERVER_METHOD=GET
 #The parameter that is going to contain the ordering
@@ -93,4 +93,6 @@ DATASERVER_DEFAULT_DATE_FORMAT="Y-m-d"
 #What is the default ordering that we request
 DATASERVER_DEFAULT_ORDERING="asc"
 
+
+DATASERVER_STRUCTURE="csv"
 ```
